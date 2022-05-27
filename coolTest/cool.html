@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.10.5/viewer.min.js"></script>
+    <title>Page Title</title>
+    <style>
+        #sus 
+        {
+            margin: 0px;
+        }
+
+        #go {
+            border: 1px solid #000;
+            width: 950px;
+            margin: auto;
+        }
+
+        .button {
+            background-color: white;
+            border: unset;
+            transition-duration: 0.1s;
+            margin: auto;
+        }
+
+            .button:hover 
+            {
+                background-color: lightgrey;
+            }
+        #egg {
+            border: 1px solid #000;
+            width: 950px;
+            margin: auto;
+            padding: 25px;
+            background-color: white;
+            font-family: courier;
+        }
+        #eggo {
+            border: 1px solid #000;
+            width: 950px;
+            margin: auto;
+            padding: 25px;
+            background-color: white;
+            font-family: courier;
+            visibility: hidden;
+        }
+            #eggo:first-line
+            {
+                font-size: 120%;
+            }
+
+
+            button {
+                width: 100%;
+                display: block;
+                font-family: courier;
+            }
+
+        p {
+            margin: 0px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        h1 {
+            color: black;
+            font-family: courier;
+            text-align: center;
+            font-size: 150%;
+        }
+
+        img {
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body onload="o()">
+    <h1 font-weight="lighter" ;> Moosa Nasir </h1>
+    <div id="go"> </div>
+    <svg width=500px height=400px id="my_dataviz"> </svg>
+    <div id="eggo"></div>
+    <script>
+        var object;
+        function o() {
+            var url = "https://api.github.com/repos/TealEgg/Testing/contents/";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+
+            xhr.setRequestHeader("Accept", "application/vnd.github.v3+json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    console.log(xhr.status);
+                    object = JSON.parse(xhr.responseText);
+                    object.forEach(function (x) {
+                        if (!x.name.includes('.png') && !x.name.includes('LICENSE-CC-BY') && !x.name.includes('README')) {
+                            a(x.download_url);
+                        }
+
+                    });
+                }
+            };
+
+            xhr.send();
+        }
+        function a(url) {
+            fetch(url)
+                .then((response) => response.text().then(yourCallback));
+
+
+        }
+        function yourCallback(retrievedText) {
+            var button = document.createElement("button");
+            button.setAttribute('onclick', 'egg(\'' + retrievedText.replace(/(?:\r\n|\r|\n|\n\n)/g, '<br>').replaceAll('\'', '\\\'') + '\');');
+            button.setAttribute('type', 'button');
+            button.className = 'button';
+            //button.style.background = 'white';
+            button.innerHTML = retrievedText.split('\n')[0] + " - " + "<span style='font-size:10px;'>" + retrievedText.split('\n')[1] + "</span>";
+
+            document.getElementById("go").appendChild(button);
+            //document.getElementById("go").innerHTML += "<button onclick = egg(" + retrievedText + ")> " + retrievedText.split('\n')[0] + " - " + "<span style='font-size:10px;'>" + retrievedText.split('\n')[1] + "</span>" + "</button>";
+        }
+        function egg(text) {
+            document.getElementById("eggo").innerHTML = text;
+            document.getElementById("eggo").style.visibility = "visible";
+        }
+
+
+
+    </script>
+</body>
+</html>
