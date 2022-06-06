@@ -96,7 +96,7 @@
                     console.log(xhr.status);
                     object = JSON.parse(xhr.responseText);
                     object.forEach(function (x) {
-                        if (!x.name.includes('.png') && !x.name.includes('LICENSE-CC-BY') && !x.name.includes('README')) {
+                        if (!x.name.includes('.png') && !x.name.includes('LICENSE-CC-BY') && !x.name.includes('README') && !x.name.includes('.svg')) {
                             a(x.download_url);
                         }
 
